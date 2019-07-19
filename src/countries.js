@@ -173,6 +173,7 @@ export default ({
     "SA": "Saudi Arabia",
     "SN": "Senegal",
     "RS": "Serbia",
+    "RS_LATN": "Serbia - Latin",
     "SC": "Seychelles",
     "SL": "Sierra Leone",
     "SG": "Singapore",
