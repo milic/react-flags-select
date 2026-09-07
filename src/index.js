@@ -1,197 +1,181 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import PropTypes from 'prop-types'
 import countries from './countries';
 
-class ReactFlagsSelect extends Component {
-	constructor(props){
-		super(props);
+function ReactFlagsSelect(props) {
+	const [openOptions, setOpenOptions] = useState(false);
+	const [selected, setSelected] = useState();
+	const [defaultCountry] = useState(countries[props.defaultCountry] && props.defaultCountry);
+	const [countriesList, setCountriesList] = useState([]);
+	const [filteredCountries, setFilteredCountries] = useState([]);
+	const [filter, setFilter] = useState('');
 
-		const defaultCountry = countries[this.props.defaultCountry] && this.props.defaultCountry;
+	const selectedFlagRef = useRef(null);
+	const flagOptionsRef = useRef(null);
+	const filterTextRef = useRef(null);
 
-		this.state = {
-			openOptions: false,
-			defaultCountry,
-			filteredCountries: []
-		}
-
-		this.toggleOptions = this.toggleOptions.bind(this);
-		this.closeOptions = this.closeOptions.bind(this);
-		this.onSelect = this.onSelect.bind(this);
-		this.filterSearch = this.filterSearch.bind(this);
-		this.setCountries = this.setCountries.bind(this);
-	}
-
-	toggleOptions() {
-		!this.state.disabled && this.setState({
-			openOptions: !this.state.openOptions
-		});
-	}
-
-	toggleOptionsWithKeyboard(evt) {
-		evt.preventDefault();
-		if (evt.keyCode === 13) {
-			//enter key: toggle options
-			this.toggleOptions();
-		} else if (evt.keyCode === 27) {
-			//esc key: hide options
-			!this.state.disabled && this.setState({
-				openOptions: false
-			});
-		}
-
-	}
-
-	closeOptions(event) {
-		if (event.target !== this.refs.selectedFlag && event.target !== this.refs.flagOptions && event.target !== this.refs.filterText ) {
-			this.setState({
-				openOptions: false
-			});
-		}
-	}
-
-	onSelect(countryCode) {
-		this.setState({
-			selected: countryCode,
-			filter : ''
-		})
-		this.props.onSelect && this.props.onSelect(countryCode);
-	}
-
-	onSelectWithKeyboard(evt, countryCode) {
-		evt.preventDefault();
-		if (evt.keyCode === 13) {
-			//enter key: select
-			this.onSelect(countryCode);
-			this.closeOptions(evt);
-		} else if (evt.keyCode === 27) {
-			//esc key: hide options
-			this.toggleOptions();
-		}
-	}
-
-	updateSelected(countryCode) {
-		let isValid = countries[countryCode];
-
-		isValid && this.setState({
-			selected: countryCode
-		})
-	}
-
-	filterSearch(evt) {
-		let filterValue = evt.target.value;
-		let filteredCountries = filterValue && this.state.countries.filter(key => {
-			let label = this.props.customLabels[key] || countries[key];
-			return  label && label.match(new RegExp(filterValue, 'i'))
-		}) ;
-
-		this.setState({filter : filterValue, filteredCountries : filteredCountries });
-	}
-
-	setCountries() {
+	const setCountries = useCallback(() => {
 		const fullCountries = Object.keys(countries);
-
-		let selectCountries = this.props.countries && this.props.countries.filter( country => {
-			return countries[country] ;
-		});
-
-		//Filter BlackList
-		if (this.props.blackList && selectCountries) {
-			selectCountries = fullCountries.filter(countryKey =>{
-					return selectCountries.filter(country =>{
-						return countryKey === country;
-					}).length === 0
+		let selectCountries = props.countries && props.countries.filter(country => countries[country]);
+		if (props.blackList && selectCountries) {
+			selectCountries = fullCountries.filter(countryKey => {
+				return selectCountries.filter(country => countryKey === country).length === 0;
 			});
 		}
+		setCountriesList(selectCountries || fullCountries);
+	}, [props.countries, props.blackList]);
 
-		this.setState({
-			countries: selectCountries || fullCountries
-		}, ()=> {
-			const { selected } = this.state;
+	useEffect(() => {
+		setCountries();
+		if (!props.disabled) {
+			window.addEventListener('click', closeOptions);
+			return () => window.removeEventListener('click', closeOptions);
+		}
+	}, [setCountries, props.disabled]);
 
-			if (selected && !this.state.countries.includes(selected)) {
-				this.setState({ selected: null });
-			}
-		});
-	}
+	useEffect(() => {
+		if (selected && !countriesList.includes(selected)) {
+			setSelected(null);
+		}
+	}, [countriesList, selected]);
 
-	componentDidMount() {
-		this.setCountries();
-		!this.props.disabled && window.addEventListener("click", this.closeOptions);
-	}
+	useEffect(() => {
+		setCountries();
+	}, [props.countries, props.blackList, setCountries]);
 
-	componentDidUpdate(prevProps) {
-		if (prevProps.countries !== this.props.countries || prevProps.blackList !== this.props.blackList) {
-			this.setCountries();
+	const toggleOptions = useCallback(() => {
+		if (!props.disabled) setOpenOptions(open => !open);
+	}, [props.disabled]);
+
+	const toggleOptionsWithKeyboard = evt => {
+		evt.preventDefault();
+		if (evt.keyCode === 13) {
+			toggleOptions();
+		} else if (evt.keyCode === 27) {
+			if (!props.disabled) setOpenOptions(false);
+		}
+	};
+
+	function closeOptions(event) {
+		if (
+			event.target !== selectedFlagRef.current &&
+			event.target !== flagOptionsRef.current &&
+			event.target !== filterTextRef.current
+		) {
+			setOpenOptions(false);
 		}
 	}
 
-	componentWillUnmount() {
-		!this.props.disabled && window.removeEventListener("click", this.closeOptions);
-	}
+	const onSelect = countryCode => {
+		setSelected(countryCode);
+		setFilter('');
+		props.onSelect && props.onSelect(countryCode);
+	};
 
-	render() {
+	const onSelectWithKeyboard = (evt, countryCode) => {
+		evt.preventDefault();
+		if (evt.keyCode === 13) {
+			onSelect(countryCode);
+			closeOptions(evt);
+		} else if (evt.keyCode === 27) {
+			toggleOptions();
+		}
+	};
 
-		let isSelected = this.state.selected || this.state.defaultCountry;
-		let selectedSize = this.props.selectedSize;
-		let optionsSize = this.props.optionsSize;
-		let alignClass = this.props.alignOptions.toLowerCase() === 'left' ? 'to--left' : '';
+	const updateSelected = countryCode => {
+		let isValid = countries[countryCode];
+		if (isValid) setSelected(countryCode);
+	};
 
-		return (
-			<div className={`flag-select ${this.props.className ? this.props.className :  ""}`}>
-				<div ref="selectedFlag" style={{fontSize: `${selectedSize}px`}} className={`selected--flag--option ${this.props.disabled ? 'no--focus' : ''}`} tabIndex="0" onClick={this.toggleOptions} onKeyUp={evt => this.toggleOptionsWithKeyboard(evt)}>
-					{isSelected &&
-						<span className="country-flag" style={{width: `${selectedSize}px`, height: `${selectedSize}px`}} >
-							<img src={`/flags/${isSelected.toLowerCase()}.svg`} alt={isSelected}/>
-							{this.props.showSelectedLabel &&
-								<span className="country-label">{ this.props.customLabels[isSelected] || countries[isSelected] }</span>
-							}
-						</span>
-					}
+	const filterSearch = evt => {
+		let filterValue = evt.target.value;
+		let filtered =
+			filterValue && countriesList.filter(key => {
+				let label = props.customLabels[key] || countries[key];
+				return label && label.match(new RegExp(filterValue, 'i'));
+			});
+		setFilter(filterValue);
+		setFilteredCountries(filtered);
+	};
 
-					{!isSelected &&
-						<span className="country-label">{this.props.placeholder}</span>
-					}
-					<span className={`arrow-down ${this.props.disabled ? 'hidden' : ''}`}>▾</span>
-				</div>
+	let isSelected = selected || defaultCountry;
+	let selectedSize = props.selectedSize;
+	let optionsSize = props.optionsSize;
+	let alignClass = props.alignOptions.toLowerCase() === 'left' ? 'to--left' : '';
 
-				{this.state.openOptions &&
-					<div ref="flagOptions" style={{fontSize: `${optionsSize}px`}} className={`flag-options ${alignClass}`}>
-						{this.props.searchable &&
-							<div className="filterBox">
-								<input type="text" placeholder={this.props.searchPlaceholder} ref="filterText"  onChange={this.filterSearch}/>
-							</div>
-						}
-						{(this.state.filter ? this.state.filteredCountries : this.state.countries).map( countryCode =>
-
-							<div className={`flag-option ${this.props.showOptionLabel ? 'has-label' : ''}`} key={countryCode} tabIndex="0" onClick={() => this.onSelect(countryCode)} onKeyUp={evt => this.onSelectWithKeyboard(evt, countryCode)}>
-								<span className="country-flag" style={{width: `${optionsSize}px`, height: `${optionsSize}px`}} >
-									<img src={`/flags/${countryCode.toLowerCase()}.svg`} alt="Country flag" />
-									{this.props.showOptionLabel &&
-										<span className="country-label">{ this.props.customLabels[countryCode] || countries[countryCode] }</span>
-									}
-								</span>
-							</div>
+	return (
+		<div className={`flag-select ${props.className ? props.className : ''}`}>
+			<div
+				ref={selectedFlagRef}
+				style={{ fontSize: `${selectedSize}px` }}
+				className={`selected--flag--option ${props.disabled ? 'no--focus' : ''}`}
+				tabIndex="0"
+				onClick={toggleOptions}
+				onKeyUp={toggleOptionsWithKeyboard}
+			>
+				{isSelected ? (
+					<span className="country-flag" style={{ width: `${selectedSize}px`, height: `${selectedSize}px` }}>
+						<img src={`/flags/${isSelected.toLowerCase()}.svg`} alt={isSelected} />
+						{props.showSelectedLabel && (
+							<span className="country-label">{props.customLabels[isSelected] || countries[isSelected]}</span>
 						)}
-					</div>
-				}
+					</span>
+				) : (
+					<span className="country-label">{props.placeholder}</span>
+				)}
+				<span className={`arrow-down ${props.disabled ? 'hidden' : ''}`}>▾</span>
 			</div>
-		)
-	}
+			{openOptions && (
+				<div
+					ref={flagOptionsRef}
+					style={{ fontSize: `${optionsSize}px` }}
+					className={`flag-options ${alignClass}`}
+				>
+					{props.searchable && (
+						<div className="filterBox">
+							<input
+								type="text"
+								placeholder={props.searchPlaceholder}
+								ref={filterTextRef}
+								onChange={filterSearch}
+							/>
+						</div>
+					)}
+					{(filter ? filteredCountries : countriesList).map(countryCode => (
+						<div
+							className={`flag-option ${props.showOptionLabel ? 'has-label' : ''}`}
+							key={countryCode}
+							tabIndex="0"
+							onClick={() => onSelect(countryCode)}
+							onKeyUp={evt => onSelectWithKeyboard(evt, countryCode)}
+						>
+							<span className="country-flag" style={{ width: `${optionsSize}px`, height: `${optionsSize}px` }}>
+								<img src={`/flags/${countryCode.toLowerCase()}.svg`} alt="Country flag" />
+								{props.showOptionLabel && (
+									<span className="country-label">{props.customLabels[countryCode] || countries[countryCode]}</span>
+								)}
+							</span>
+						</div>
+					))}
+				</div>
+			)}
+		</div>
+	);
 }
 
 ReactFlagsSelect.defaultProps = {
 	selectedSize: 16,
 	optionsSize: 14,
-	placeholder: "Select a country",
+	placeholder: 'Select a country',
 	showSelectedLabel: true,
 	showOptionLabel: true,
-	alignOptions: "right",
+	alignOptions: 'right',
 	customLabels: {},
 	disabled: false,
 	blackList: false,
 	searchable: false,
 	searchPlaceholder: 'Search',
-}
+};
 
 ReactFlagsSelect.propTypes = {
 	countries: PropTypes.array,
@@ -209,6 +193,6 @@ ReactFlagsSelect.propTypes = {
 	disabled: PropTypes.bool,
 	searchable: PropTypes.bool,
 	searchPlaceholder: PropTypes.string,
-}
+};
 
 export default ReactFlagsSelect;

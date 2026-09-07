@@ -2,11 +2,11 @@ import React from 'react'
 import {render} from 'react-dom'
 import '../../css/demo.css';
 import '../../css/react-flags-select.css';
-import 'highlight.js/styles/default.css';
+// import 'highlight.js/styles/default.css';
 
 import ReactFlagsSelect from '../../src'
 
-let Highlight = require('react-syntax-highlight');
+// let Highlight = require('react-syntax-highlight');
 
 class Demo extends React.Component {
 	render() {
@@ -25,18 +25,18 @@ class Demo extends React.Component {
 						<div className="demo-group-title">
 							<span>Default</span>
 						</div>
-						<div className="demo-source">
-							<Highlight lang={'js'} value={'<ReactFlagsSelect />'} />
-						</div>
+						{/*<div className="demo-source">*/}
+						{/*	<Highlight lang={'js'} value={'<ReactFlagsSelect />'} />*/}
+						{/*</div>*/}
 						<ReactFlagsSelect />
 					</div>
 					<div className="demo-group">
 						<div className="demo-group-title">
 							<span>Default Country</span>
 						</div>
-						<div className="demo-source">
-							<Highlight lang={'js'} value={'<ReactFlagsSelect \n defaultCountry="US" />'} />
-						</div>
+						{/*<div className="demo-source">*/}
+						{/*	<Highlight lang={'js'} value={'<ReactFlagsSelect \n defaultCountry="US" />'} />*/}
+						{/*</div>*/}
 						<ReactFlagsSelect
 					    defaultCountry="US" />
 					</div>
@@ -44,9 +44,9 @@ class Demo extends React.Component {
 						<div className="demo-group-title">
 							<span>Searchable</span>
 						</div>
-						<div className="demo-source">
-							<Highlight lang={'js'} value={'<ReactFlagsSelect \n searchable={true} />'} />
-						</div>
+						{/*<div className="demo-source">*/}
+						{/*	<Highlight lang={'js'} value={'<ReactFlagsSelect \n searchable={true} />'} />*/}
+						{/*</div>*/}
 						<ReactFlagsSelect
 						searchable={true} />
 					</div>
@@ -54,9 +54,9 @@ class Demo extends React.Component {
 						<div className="demo-group-title">
 							<span>Searchable (with placeholder)</span>
 						</div>
-						<div className="demo-source">
-							<Highlight lang={'js'} value={'<ReactFlagsSelect \n searchable={true} \n searchPlaceholder="Search for a country" />'} />
-						</div>
+						{/*<div className="demo-source">*/}
+						{/*	<Highlight lang={'js'} value={'<ReactFlagsSelect \n searchable={true} \n searchPlaceholder="Search for a country" />'} />*/}
+						{/*</div>*/}
 						<ReactFlagsSelect
 						searchable={true}
 						searchPlaceholder="Search for a country" />
@@ -65,9 +65,9 @@ class Demo extends React.Component {
 						<div className="demo-group-title">
 							<span>Countries</span>
 						</div>
-						<div className="demo-source">
-							<Highlight lang={'js'} value={'<ReactFlagsSelect \n countries={["US", "GB", "FR", "DE", "IT", "NG"]} />'} />
-						</div>
+						{/*<div className="demo-source">*/}
+						{/*	<Highlight lang={'js'} value={'<ReactFlagsSelect \n countries={["US", "GB", "FR", "DE", "IT", "NG"]} />'} />*/}
+						{/*</div>*/}
 						<ReactFlagsSelect
 					    countries={["US", "GB", "FR", "DE", "IT", "NG"]} />
 					</div>
@@ -76,9 +76,9 @@ class Demo extends React.Component {
 						<div className="demo-group-title">
 							<span>Countries (BlackList)</span>
 						</div>
-						<div className="demo-source">
-							<Highlight lang={'js'} value={'<ReactFlagsSelect \n countries={["US", "GB", "FR", "DE", "IT", "NG"]} \n blackList={true} />'} />
-						</div>
+						{/*<div className="demo-source">*/}
+						{/*	<Highlight lang={'js'} value={'<ReactFlagsSelect \n countries={["US", "GB", "FR", "DE", "IT", "NG"]} \n blackList={true} />'} />*/}
+						{/*</div>*/}
 						<ReactFlagsSelect
 					    countries={["US", "GB", "FR", "DE", "IT", "NG"]}
 					    blackList={true} />
@@ -88,9 +88,9 @@ class Demo extends React.Component {
 						<div className="demo-group-title">
 							<span>Custom Labels</span>
 						</div>
-						<div className="demo-source">
-							<Highlight lang={'js'} value={'<ReactFlagsSelect \n countries={["US", "GB", "FR", "DE", "IT"]} \n customLabels={{"US": "EN-US","GB": "EN-GB","FR": "FR","DE": "DE","IT": "IT"}} />'} />
-						</div>
+						{/*<div className="demo-source">*/}
+						{/*	<Highlight lang={'js'} value={'<ReactFlagsSelect \n countries={["US", "GB", "FR", "DE", "IT"]} \n customLabels={{"US": "EN-US","GB": "EN-GB","FR": "FR","DE": "DE","IT": "IT"}} />'} />*/}
+						{/*</div>*/}
 						<ReactFlagsSelect
 					    countries={["US", "GB", "FR", "DE", "IT"]} 
 					    customLabels={{"US": "EN-US","GB": "EN-GB","FR": "FR","DE": "DE","IT": "IT"}} />
@@ -99,9 +99,9 @@ class Demo extends React.Component {
 						<div className="demo-group-title">
 							<span>Placeholder</span>
 						</div>
-						<div className="demo-source">
-							<Highlight lang={'js'} value={'<ReactFlagsSelect \n countries={["US", "GB", "FR", "DE", "IT"]} \n customLabels={{"US": "EN-US","GB": "EN-GB","FR": "FR","DE": "DE","IT": "IT"}} \n placeholder="Select Language" />'} />
-						</div>
+						{/*<div className="demo-source">*/}
+						{/*	<Highlight lang={'js'} value={'<ReactFlagsSelect \n countries={["US", "GB", "FR", "DE", "IT"]} \n customLabels={{"US": "EN-US","GB": "EN-GB","FR": "FR","DE": "DE","IT": "IT"}} \n placeholder="Select Language" />'} />*/}
+						{/*</div>*/}
 						<ReactFlagsSelect
 					    countries={["US", "GB", "FR", "DE", "IT"]} 
 					    customLabels={{"US": "EN-US","GB": "EN-GB","FR": "FR","DE": "DE","IT": "IT"}}
@@ -111,9 +111,9 @@ class Demo extends React.Component {
 						<div className="demo-group-title">
 							<span>Show Selected Label</span>
 						</div>
-						<div className="demo-source">
-							<Highlight lang={'js'} value={'<ReactFlagsSelect \n countries={["US", "GB", "FR", "DE", "IT"]} \n customLabels={{"US": "EN-US","GB": "EN-GB","FR": "FR","DE": "DE","IT": "IT"}} \n placeholder="Select Language" \n showSelectedLabel={false} />'} />
-						</div>
+						{/*<div className="demo-source">*/}
+						{/*	<Highlight lang={'js'} value={'<ReactFlagsSelect \n countries={["US", "GB", "FR", "DE", "IT"]} \n customLabels={{"US": "EN-US","GB": "EN-GB","FR": "FR","DE": "DE","IT": "IT"}} \n placeholder="Select Language" \n showSelectedLabel={false} />'} />*/}
+						{/*</div>*/}
 						<ReactFlagsSelect
 					    countries={["US", "GB", "FR", "DE", "IT"]} 
 					    customLabels={{"US": "EN-US","GB": "EN-GB","FR": "FR","DE": "DE","IT": "IT"}}
@@ -124,9 +124,9 @@ class Demo extends React.Component {
 						<div className="demo-group-title">
 							<span>Show Option Label</span>
 						</div>
-						<div className="demo-source">
-							<Highlight lang={'js'} value={'<ReactFlagsSelect \n countries={["US", "GB", "FR", "DE", "IT"]} \n customLabels={{"US": "EN-US","GB": "EN-GB","FR": "FR","DE": "DE","IT": "IT"}} \n placeholder="Select Language" \n showSelectedLabel={false} \n showOptionLabel={false} />'} />
-						</div>
+						{/*<div className="demo-source">*/}
+						{/*	<Highlight lang={'js'} value={'<ReactFlagsSelect \n countries={["US", "GB", "FR", "DE", "IT"]} \n customLabels={{"US": "EN-US","GB": "EN-GB","FR": "FR","DE": "DE","IT": "IT"}} \n placeholder="Select Language" \n showSelectedLabel={false} \n showOptionLabel={false} />'} />*/}
+						{/*</div>*/}
 						<ReactFlagsSelect
 					    countries={["US", "GB", "FR", "DE", "IT"]} 
 					    customLabels={{"US": "EN-US","GB": "EN-GB","FR": "FR","DE": "DE","IT": "IT"}}
@@ -138,9 +138,9 @@ class Demo extends React.Component {
 						<div className="demo-group-title">
 							<span>Selected Size</span>
 						</div>
-						<div className="demo-source">
-							<Highlight lang={'js'} value={'<ReactFlagsSelect \n countries={["US", "GB", "FR", "DE", "IT"]} \n customLabels={{"US": "EN-US","GB": "EN-GB","FR": "FR","DE": "DE","IT": "IT"}} \n placeholder="Select Language" \n showSelectedLabel={false} \n showOptionLabel={false} \n selectedSize={14} />'} />
-						</div>
+						{/*<div className="demo-source">*/}
+						{/*	<Highlight lang={'js'} value={'<ReactFlagsSelect \n countries={["US", "GB", "FR", "DE", "IT"]} \n customLabels={{"US": "EN-US","GB": "EN-GB","FR": "FR","DE": "DE","IT": "IT"}} \n placeholder="Select Language" \n showSelectedLabel={false} \n showOptionLabel={false} \n selectedSize={14} />'} />*/}
+						{/*</div>*/}
 						<ReactFlagsSelect
 					    countries={["US", "GB", "FR", "DE", "IT"]} 
 					    customLabels={{"US": "EN-US","GB": "EN-GB","FR": "FR","DE": "DE","IT": "IT"}}
@@ -153,9 +153,9 @@ class Demo extends React.Component {
 						<div className="demo-group-title">
 							<span>Options Size</span>
 						</div>
-						<div className="demo-source">
-							<Highlight lang={'js'} value={'<ReactFlagsSelect \n countries={["US", "GB", "FR", "DE", "IT"]} \n customLabels={{"US": "EN-US","GB": "EN-GB","FR": "FR","DE": "DE","IT": "IT"}} \n placeholder="Select Language" \n showSelectedLabel={false} \n showOptionLabel={false} \n selectedSize={14} \n optionsSize={14} />'} />
-						</div>
+						{/*<div className="demo-source">*/}
+						{/*	<Highlight lang={'js'} value={'<ReactFlagsSelect \n countries={["US", "GB", "FR", "DE", "IT"]} \n customLabels={{"US": "EN-US","GB": "EN-GB","FR": "FR","DE": "DE","IT": "IT"}} \n placeholder="Select Language" \n showSelectedLabel={false} \n showOptionLabel={false} \n selectedSize={14} \n optionsSize={14} />'} />*/}
+						{/*</div>*/}
 						<ReactFlagsSelect
 					    countries={["US", "GB", "FR", "DE", "IT"]} 
 					    customLabels={{"US": "EN-US","GB": "EN-GB","FR": "FR","DE": "DE","IT": "IT"}}
@@ -169,9 +169,9 @@ class Demo extends React.Component {
 						<div className="demo-group-title">
 							<span>className</span>
 						</div>
-						<div className="demo-source">
-							<Highlight lang={'js'} value={'<ReactFlagsSelect \n className="menu-flags" />'} />
-						</div>
+						{/*<div className="demo-source">*/}
+						{/*	<Highlight lang={'js'} value={'<ReactFlagsSelect \n className="menu-flags" />'} />*/}
+						{/*</div>*/}
 						<ReactFlagsSelect
 					    className="menu-flags" />
 					</div>
@@ -179,9 +179,9 @@ class Demo extends React.Component {
 						<div className="demo-group-title">
 							<span>Align Options</span>
 						</div>
-						<div className="demo-source">
-							<Highlight lang={'js'} value={'<ReactFlagsSelect \n alignOptions="left" />'} />
-						</div>
+						{/*<div className="demo-source">*/}
+						{/*	<Highlight lang={'js'} value={'<ReactFlagsSelect \n alignOptions="left" />'} />*/}
+						{/*</div>*/}
 						<ReactFlagsSelect
 					    alignOptions="left" />
 					</div>
@@ -189,9 +189,9 @@ class Demo extends React.Component {
 						<div className="demo-group-title">
 							<span>Disabled</span>
 						</div>
-						<div className="demo-source">
-							<Highlight lang={'js'} value={'<ReactFlagsSelect \n defaultCountry="US" \n showSelectedLabel={false} \n disabled={true}/>'} />
-						</div>
+						{/*<div className="demo-source">*/}
+						{/*	<Highlight lang={'js'} value={'<ReactFlagsSelect \n defaultCountry="US" \n showSelectedLabel={false} \n disabled={true}/>'} />*/}
+						{/*</div>*/}
 						<ReactFlagsSelect
 					    defaultCountry="US"
 					    showSelectedLabel={false}
